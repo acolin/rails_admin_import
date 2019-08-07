@@ -78,6 +78,7 @@ module RailsAdminImport
 
       object = find_or_create_object(record, update_lookup)
       return if object.nil?
+      return unless object.new_record?
       action = object.new_record? ? :create : :update
 
       begin
@@ -192,6 +193,7 @@ module RailsAdminImport
       end
 
       model = import_model.model
+      update = [:email, :phone]
       object = if update.present?
                  query = update.each_with_object({}) do
                    |field, query| query[field] = record[field]
